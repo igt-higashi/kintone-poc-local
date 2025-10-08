@@ -1,17 +1,24 @@
 const fs = require('fs');
-const configPath = './config/config.json';
+const path = require('path');
 
-function loadConfig() {
-  if (!fs.existsSync(configPath)) {
-    console.error(`Error: config.json が見つかりません (${configPath})`);
+/**
+ * 設定ファイルを読み込む
+ * @param {string} [configPath] - 設定ファイルのパス'
+ * @returns {Object} 設定オブジェクト
+ */
+function loadConfig(configPath = './config/google_config.json') {
+  const resolvedPath = path.resolve(configPath);
+
+  if (!fs.existsSync(resolvedPath)) {
+    console.error(`Error: 設定ファイルが見つかりません (${resolvedPath})`);
     process.exit(1);
   }
 
   try {
-    const configData = fs.readFileSync(configPath, 'utf-8');
+    const configData = fs.readFileSync(resolvedPath, 'utf-8');
     return JSON.parse(configData);
   } catch (err) {
-    console.error('Error: config.json の読み込みに失敗しました。', err);
+    console.error(`Error: 設定ファイルの読み込みに失敗しました (${resolvedPath})`, err);
     process.exit(1);
   }
 }

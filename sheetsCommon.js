@@ -1,24 +1,21 @@
 const { google } = require('googleapis');
-
-// ダウンロードした Service Account の認証情報JSONを指定
-const keys = require('./credentials/kintone-poc-dc42d154db9f.json');
+const path = require('path');
+const fs = require('fs');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // ファイル作成等も行いたいなら 'https://www.googleapis.com/auth/drive' も追加
 
-// config.json から spreadsheetId を取得
-// const fs = require('fs');
-// const configPath = './config/config.json';
-// if (!fs.existsSync(configPath)) {
-//   console.error('Error: config.json が見つかりません。');
-//   process.exit(1);
-// }
-// const config = require(configPath);
 const { loadConfig } = require('./configLoader');
-const config = loadConfig();
-const { SPREADSHEET_ID } = config;
+const googleConfig = loadConfig('./config/google_config.json');
+const { SPREADSHEET_ID } = googleConfig;
 const spreadsheetId = SPREADSHEET_ID;
-
 module.exports = { spreadsheetId, getSheetsClient, readRange, writeRange };
+// 認証情報 JSON をロード
+const credentialsPath = path.resolve(googleConfig.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS_PATH);
+if (!fs.existsSync(credentialsPath)) {
+  console.error(`Error: 認証情報 JSON が見つかりません (${credentialsPath})`);
+  process.exit(1);
+}
+const keys = require(credentialsPath);
 
 async function getSheetsClient() {
   const client = new google.auth.JWT({
