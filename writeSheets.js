@@ -26,7 +26,9 @@ const spreadsheetId = '1a66YzD8sXgNRh4GpwuD5FlItXlIJ-t_Yvzdevcl_7dM';
     const [, , range, jsonValues] = process.argv;
     if (!range || !jsonValues) {
         console.error('Usage: node writeSheets.js <RANGE> <JSON_VALUES>');
-        console.error(String.raw`Example: node writeSheets.js Sheet2!A1 '[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]'`);
+        console.error(String.raw`Example: Quoting and escaping rules differ between shells.`);
+        console.error(String.raw`- PowerShell: node writeSheets.js Sheet2!A1 '[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]'`);
+        console.error(String.raw`- cmd.exe  : node writeSheets.js "Sheet2!A1" "[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]"`);
         process.exit(1);
     }
     let values;
