@@ -6,13 +6,8 @@
  */
 
 const axios = require('axios');
-const fs = require('fs');
-const configPath = './config/config.json';
-if (!fs.existsSync(configPath)) {
-  console.error('Error: config.json が見つかりません。');
-  process.exit(1);
-}
-const config = require(configPath);
+const { loadConfig } = require('./configLoader');
+const config = loadConfig();
 const { SUBDOMAIN, APP_ID_PIC, API_TOKEN_PIC } = config;
 
 (async () => {

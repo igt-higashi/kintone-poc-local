@@ -7,9 +7,7 @@
  */
 
 // Google Sheets 読み込みスクリプト
-const { readRange } = require('./sheetsCommon');
-// 固定のスプレッドシートID（テスト用）
-const spreadsheetId = '1a66YzD8sXgNRh4GpwuD5FlItXlIJ-t_Yvzdevcl_7dM';
+const { spreadsheetId, readRange } = require('./sheetsCommon');
 
 (async () => {
     const [, , range] = process.argv;

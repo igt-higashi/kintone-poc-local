@@ -18,32 +18,30 @@
  */
 
 // Google Sheets 書き込みスクリプト
-const { writeRange } = require('./sheetsCommon');
-// 固定のスプレッドシートID（テスト用）
-const spreadsheetId = '1a66YzD8sXgNRh4GpwuD5FlItXlIJ-t_Yvzdevcl_7dM';
+const { spreadsheetId, writeRange } = require('./sheetsCommon');
 
 (async () => {
-    const [, , range, jsonValues] = process.argv;
-    if (!range || !jsonValues) {
-        console.error('Usage: node writeSheets.js <RANGE> <JSON_VALUES>');
-        console.error(String.raw`Example: Quoting and escaping rules differ between shells.`);
-        console.error(String.raw`- PowerShell: node writeSheets.js Sheet2!A1 '[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]'`);
-        console.error(String.raw`- cmd.exe  : node writeSheets.js "Sheet2!A1" "[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]"`);
-        process.exit(1);
-    }
-    let values;
-    try {
-        values = JSON.parse(jsonValues);
-        if (!Array.isArray(values)) throw new Error('values must be a 2D array');
-    } catch (err) {
-        console.error('Invalid JSON_VALUES:', err.message);
-        process.exit(1);
-    }
-    try {
-        const res = await writeRange(spreadsheetId, range, values);
-        console.log('Write result:', JSON.stringify(res, null, 2));
-    } catch (err) {
-        console.error('Error:', err.response?.data || err.message || err);
-        process.exit(1);
-    }
+  const [, , range, jsonValues] = process.argv;
+  if (!range || !jsonValues) {
+    console.error('Usage: node writeSheets.js <RANGE> <JSON_VALUES>');
+    console.error(String.raw`Example: Quoting and escaping rules differ between shells.`);
+    console.error(String.raw`- PowerShell: node writeSheets.js Sheet2!A1 '[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]'`);
+    console.error(String.raw`- cmd.exe  : node writeSheets.js "Sheet2!A1" "[[\"A1\",\"B1\"],[\"A2\",\"B2\"]]"`);
+    process.exit(1);
+  }
+  let values;
+  try {
+    values = JSON.parse(jsonValues);
+    if (!Array.isArray(values)) throw new Error('values must be a 2D array');
+  } catch (err) {
+    console.error('Invalid JSON_VALUES:', err.message);
+    process.exit(1);
+  }
+  try {
+    const res = await writeRange(spreadsheetId, range, values);
+    console.log('Write result:', JSON.stringify(res, null, 2));
+  } catch (err) {
+    console.error('Error:', err.response?.data || err.message || err);
+    process.exit(1);
+  }
 })();
