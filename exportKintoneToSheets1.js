@@ -5,11 +5,11 @@
  * 取得したすべてのフィールドを出力
  */
 const axios = require('axios');
-const { loadConfig } = require('./configLoader');
+const { loadJsonFile } = require('./fileLoader');
 const { spreadsheetId, writeRange } = require('./sheetsCommon');
 
 // Kintone 設定をロード
-const kinotoneConfig = loadConfig('./config/kintone_config.json');
+const kinotoneConfig = loadJsonFile('./config/kintone_config.json');
 const { SUBDOMAIN, APP_ID_PIC, API_TOKEN_PIC } = kinotoneConfig;
 
 function normalizeValue(v) {

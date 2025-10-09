@@ -11,8 +11,8 @@
  */
 
 const axios = require('axios');
-const { loadConfig } = require('./configLoader');
-const kintoneConfig = loadConfig('./config/kintone_config.json');
+const { loadJsonFile } = require('./fileLoader');
+const kintoneConfig = loadJsonFile('./config/kintone_config.json');
 const { SUBDOMAIN, APP_ID_PIC, API_TOKEN_PIC, API_TOKEN_CUSTOMER } = kintoneConfig;
 // SUBDOMAIN: Kintoneのサブドメイン
 // APP_ID_PIC: 担当者管理アプリのID

@@ -6,8 +6,8 @@
  */
 
 const axios = require('axios');
-const { loadConfig } = require('./configLoader');
-const kinotoneConfig = loadConfig('./config/kintone_config.json');
+const { loadJsonFile } = require('./fileLoader');
+const kinotoneConfig = loadJsonFile('./config/kintone_config.json');
 const { SUBDOMAIN, APP_ID_PIC, API_TOKEN_PIC } = kinotoneConfig;
 
 (async () => {

@@ -4,8 +4,8 @@ const fs = require('fs');
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // ファイル作成等も行いたいなら 'https://www.googleapis.com/auth/drive' も追加
 
-const { loadConfig } = require('./configLoader');
-const googleConfig = loadConfig('./config/google_config.json');
+const { loadJsonFile } = require('./fileLoader');
+const googleConfig = loadJsonFile('./config/google_config.json');
 const { SPREADSHEET_ID } = googleConfig;
 const spreadsheetId = SPREADSHEET_ID;
 module.exports = { spreadsheetId, getSheetsClient, readRange, writeRange };
