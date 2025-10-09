@@ -2,7 +2,7 @@
  * Kintone の担当者管理アプリからデータを取得し、Google Sheets にエクスポートするスクリプト
  * 
  * idで昇順ソートして出力
- * outputFieldsで出力するフィールドとその順序を指定
+ * outputFieldsで出力するフィールドとその順序を指定(外部JSONから読み込み)
  * 指定外のフィールドは出力しない
  */
 const axios = require('axios');
@@ -12,6 +12,9 @@ const { spreadsheetId, writeRange } = require('./sheetsCommon');
 // Kintone 設定をロード
 const kinotoneConfig = loadConfig('./config/kintone_config.json');
 const { SUBDOMAIN, APP_ID_PIC, API_TOKEN_PIC } = kinotoneConfig;
+
+// outputFields を外部 JSON からロード
+const outputFields = loadConfig('./settings/outputFields.json');
 
 function normalizeValue(v) {
   if (Array.isArray(v)) {
@@ -29,34 +32,6 @@ function normalizeValue(v) {
   }
   return v ?? '';
 }
-
-// 出力するフィールド順を配列で定義
-const outputFields = [
-  '$id',
-  '顧客名',
-  'お名前',
-  '部署',
-  '役職',
-  '電話番号',
-  '携帯番号',
-  'メールアドレス',
-  '決裁権',
-  '備考',
-];
-/*'添付ファイル_名刺等',
-'担当者No_',
-'作成日時',
-'作成者',
-'更新日時',
-'更新者',
-'顧客No_',
-'姓',
-'名',
-'姓_フリガナ',
-'名_フリガナ',
-'お名前_フリガナ',
-'$revision'
-];*/
 
 (async () => {
   try {
